@@ -6,18 +6,19 @@ public class BookAnalysisTester {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		ArrayList<String> alice = new ArrayList<String>();
+		TextCollectorV1 books = new TextCollectorV1("alice-in-wonderland.txt");
+		ArrayList<String> book = books.getBook();
 		
-		try{
-		FileReader file = new FileReader("alice-in-wonderland.txt");
-		alice = file.getLines();
+		LetterFrequency test = new LetterFrequency(book);
+		char[] chars = test.getAlphabet();
+		int[] counts = test.getCount();
 		
+		
+		System.out.println("The top ten characters are: ");
+		for (int i = 0; i < 10; i++){
+			System.out.println(chars[i] + " " + counts[i]);
 		}
-		catch(FileNotFoundException f){
-			System.out.println("Thats not a book");
-		}
 		
-		System.out.println(alice.get(1));
 	}
 
 }
