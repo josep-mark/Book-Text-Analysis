@@ -10,7 +10,9 @@ import java.io.FileNotFoundException;
  */
 public class TextCollectorV1 {
 	ArrayList<String> bookText;
+	ArrayList<String> stopList;
 	String file;
+	
 	
 	/**
 	 * The constructor takes in a file and calls the read file method
@@ -19,7 +21,9 @@ public class TextCollectorV1 {
 	public TextCollectorV1(String newFile){
 		bookText = new ArrayList<String>();
 		file = newFile;
+		stopList = new ArrayList<String>();
 		readFile();
+		findStopList();
 	}
 	
 	/**
@@ -52,6 +56,30 @@ public class TextCollectorV1 {
 	
 	public ArrayList<String> getBook(){
 		return bookText;
+	}
+	
+	private void findStopList(){
+		
+		try {
+			File inputFile = new File("stop-list.txt"); 
+			Scanner in = new Scanner(inputFile);
+				
+			while (in.hasNextLine()) { 
+				String line = in.nextLine();
+				String s = line.replaceAll("[^a-zA-Z]", "");
+				stopList.add(s);
+			}
+				
+			in.close(); 			 
+		
+		}
+		catch(FileNotFoundException f){
+			System.out.println("Thats not a book!");
+		}
+	}
+	
+	public ArrayList<String> getStopList(){
+		return stopList;
 	}
 
 }

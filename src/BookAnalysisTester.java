@@ -10,7 +10,7 @@ public class BookAnalysisTester {
 		
 		TextCollectorV1 books = new TextCollectorV1("alice-in-wonderland.txt");
 		ArrayList<String> book = books.getBook();
-		
+		ArrayList<String> stopList = books.getStopList();
 //		LetterFrequency test = new LetterFrequency(book);
 //		char[] chars = test.getAlphabet();
 //		int[] counts = test.getCount();
@@ -22,18 +22,38 @@ public class BookAnalysisTester {
 //		}
 		
 		WordFrequency words = new WordFrequency(book);
+		
+		
+		
 //		ArrayList<String> wordList = words.getAllWords();
 //		System.out.println(wordList);
 		
-		ArrayList<String> themWords = words.getMostFrequentWords();
-		ArrayList<Integer> count = words.getCounts();
+		ArrayList<Word> themWords = words.getMostFrequentWords();
+		ArrayList<Word> help = words.getAllWords();
+		
+		StopListFrequency list = new StopListFrequency(stopList, help);
+		ArrayList<Word> top = list.getMostFrequent();
+		
+		System.out.println(top);
+		int i = 0;
+		while (i < 10){
+			Word word = top.get(i);
+			System.out.println(word.getWord() + " " + word.getCount());
+			i ++;
+		}
 		
 //		for (int i = 0; i < wordList.size(); i++){
 //			System.out.println(wordList.get(i));
 //		}
-		for (int i = 0; i < 10; i++){
-			System.out.println(themWords.get(i) + " : " + count.get(i));
-		}
+		
+//		for (Word s : help){
+//			System.out.println(s.getWord() + " " +  s.getCount());
+//		}
+		
+//		for (int i = 0; i < 10; i++){
+//			Word theWord = themWords.get(i);
+//			System.out.println(theWord.getWord() + " : " + theWord.getCount());
+//		}
 //		System.out.println(themWords);
 //		System.out.println(count);
 //		System.out.println(themWords);
