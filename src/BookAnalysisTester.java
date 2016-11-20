@@ -31,16 +31,30 @@ public class BookAnalysisTester {
 		ArrayList<Word> themWords = words.getMostFrequentWords();
 		ArrayList<Word> help = words.getAllWords();
 		
-		StopListFrequency list = new StopListFrequency(stopList, help);
-		ArrayList<Word> top = list.getMostFrequent();
 		
-		System.out.println(top);
-		int i = 0;
-		while (i < 10){
-			Word word = top.get(i);
-			System.out.println(word.getWord() + " " + word.getCount());
-			i ++;
+		SuffixFinder descriptive = new SuffixFinder(book,"ly");
+		ArrayList<Word> cool = descriptive.getMostFrequent();
+		for (int i = 0; i < cool.size(); i++){
+			Word the = cool.get(i);
+			System.out.println(the.getWord() + " " + the.getCount());
 		}
+		
+		
+//		StopListFrequency list = new StopListFrequency(stopList, help);
+//		ArrayList<Word> top = list.getMostFrequent();
+//		
+//		System.out.println(top);
+//		int i = 0;
+//		while (i < 10){
+//			Word word = top.get(i);
+//			System.out.println(word.getWord() + " " + word.getCount());
+//			i ++;
+//		}
+		
+//		QuoteFinder newQuotes = new QuoteFinder(book);
+//		
+//		ArrayList<String> quotes = newQuotes.getQuotes();
+//		System.out.println(quotes);
 		
 //		for (int i = 0; i < wordList.size(); i++){
 //			System.out.println(wordList.get(i));
