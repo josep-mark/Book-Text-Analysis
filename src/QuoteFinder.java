@@ -9,13 +9,19 @@ public class QuoteFinder {
 
 	private ArrayList<String> book;
 	private ArrayList<String> currentQuote;
-	private ArrayList<String> bookQuotes;
+	private ArrayList<Quote> bookQuotes;
+	private ArrayList<Quote> longest;
+	private ArrayList<Quote> shortest;
 	
 	public QuoteFinder(ArrayList<String> bookText){
 		book = bookText;
 		currentQuote = new ArrayList<String>();
-		bookQuotes = new ArrayList<String>();
+		bookQuotes = new ArrayList<Quote>();
+		longest = new ArrayList<Quote>();
+		shortest = new ArrayList<Quote>();
 		find();
+		findLongest();
+		findShortest();
 	}
 	
 	public void find(){
@@ -29,6 +35,11 @@ public class QuoteFinder {
 				String text = lineSplit[i];
 				if (text.isEmpty()){
 					continue;
+				}
+				else if (text.startsWith("'") && text.endsWith("'")){
+					isQuote = false;
+					currentQuote.add(text);
+					concat();
 				}
 				else if (text.startsWith("'")){
 					isQuote = true;
@@ -57,13 +68,61 @@ public class QuoteFinder {
 			String s = currentQuote.get(i);
 			quote = quote + " " + s;
 		}
-		bookQuotes.add(quote);
-		System.out.println(quote);
+		Quote newQuote = new Quote(quote);
+		bookQuotes.add(newQuote);
 		currentQuote.clear();
 	}
 	
+	private void findLongest(){
+		for (int i = 0; i < 10; i++){
+			int largest = 0;
+			int index = 0;
+			Quote theLongest = new Quote("");
+			for (int j = 0; j < bookQuotes.size(); j++){
+				int count = bookQuotes.get(j).getSize();
+				if (count > largest){
+					largest = count;
+					index = j;
+					theLongest = bookQuotes.get(j);
+				}
+			}
+			longest.add(theLongest);
+			if (bookQuotes.size() > 0){
+				bookQuotes.remove(index);
+			}
+		}
+	}
 	
-	public ArrayList<String> getQuotes(){
+	private void findShortest(){
+		for (int i = 0; i < 10; i++){
+			int smallest = 100;
+			int index = 0;
+			Quote theSmallest = new Quote("");
+			for (int j = 0; j<bookQuotes.size(); j++){
+				int count = bookQuotes.get(j).getSize();
+				if (count < smallest){
+					smallest = count;
+					index = j;
+					theSmallest = bookQuotes.get(j);
+				}
+			}
+			shortest.add(theSmallest);
+			if (bookQuotes.size()>0){
+				bookQuotes.remove(index);
+			}
+		}
+	}
+	
+	
+	public ArrayList<Quote> getLongest() {
+		return longest;
+	}
+
+	public ArrayList<Quote> getShortest() {
+		return shortest;
+	}
+
+	public ArrayList<Quote> getQuotes(){
 		return bookQuotes;
 	}
 	

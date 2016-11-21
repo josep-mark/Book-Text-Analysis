@@ -8,26 +8,16 @@ import java.util.HashMap;
  */
 public class LetterFrequency {
 	private ArrayList<String> bookText;
-	private HashMap<Integer, String> bookMap;
-	private char[] alphabet;
+	private ArrayList<String> words;
 	private int[] letterCountV1;
-	private char[] topTenChar;
-	private int[] topTenCount;
-	private HashMap<String, Integer> letterCountV2;
+	private ArrayList<Characters> characters;
 	
-	public LetterFrequency(HashMap<Integer, String> bookTextMap){
-		String letters = "abcdefghijklmnopqrstuvwxyz";
-		alphabet = letters.toCharArray();
-		bookMap = bookTextMap;
-	} 
 	
 	public LetterFrequency(ArrayList<String> book){
 		bookText = book;
-		String letters = "abcdefghijklmnopqrstuvwxyz";
-		alphabet = letters.toCharArray();
 		letterCountV1 = new int[26];
-		topTenChar = new char[10];
-		topTenCount = new int[10];
+		words = new ArrayList<String>();
+		characters = new ArrayList<Characters>();
 		removeSpaces();
 		countLetters();
 		getTopTenV1();
@@ -39,9 +29,16 @@ public class LetterFrequency {
 	
 	private void removeSpaces(){
 		for (String s: bookText){
-			s.toLowerCase();
-			s.trim();
-			s.replace(" ", "");
+			String[] lineSplit = s.split(" ");
+			for (int i = 0; i < lineSplit.length; i++){
+				String text = lineSplit[i].replaceAll("[^a-zA-Z]", "").toLowerCase();
+				if (text.isEmpty()){
+					continue;
+				}
+				else{
+					words.add(text);
+				}
+			}
 		}
 	}
 	
@@ -50,17 +47,12 @@ public class LetterFrequency {
 	 */
 	
 	private void countLetters(){
-		for (String s : bookText){
+		for (String s : words){
 			for (int i = 0; i < s.length(); i ++){
 				char text = s.charAt(i);
-				for (int j = 0; j < 26; j++){
-					char test = alphabet[j];
-					if (text == test){
-						int value = letterCountV1[j];
-							value ++;
-							letterCountV1[j] = value; 						
-					}
-				}
+				int check = text - 'a';
+				int temp = letterCountV1[check] + 1;
+				letterCountV1[check] = temp;
 			}
 		}
 	}
@@ -69,36 +61,25 @@ public class LetterFrequency {
 	 * This method finds the top ten characters in the text and re
 	 */
 	private void getTopTenV1(){
-		for (int i = 0; i < 26; i++){
-			for (int j = i + 1; j < 26; j++){
-				int val1 = letterCountV1[i];
-				int val2 = letterCountV1[j];
-				if (val2 > val1){
-					letterCountV1[i] = val2;
-					letterCountV1[j] = val1;
-					char val3 = alphabet[i];
-					char val4 = alphabet[j];
-					alphabet[i] = val4;
-					alphabet[j] = val3;
+		for (int i = 0; i < 10; i++){
+			int largest = 0;
+			int index = 0;
+			for (int j = 0; j < 26; j++){
+				if (letterCountV1[j] > largest){
+					largest = letterCountV1[j];
+					index = j;
 				}
 			}
+			Characters newChar = new Characters(index, largest);
+			characters.add(newChar);
+			letterCountV1[index] = 0;
 		}
-	}
+	}	
+
 	
-	public char[] getTopTenChar(){
-		return alphabet;
-	}
 	
-	public int[] getTopTenCount(){
-		return letterCountV1;
-	}
-	
-	public char[] getAlphabet(){
-		return alphabet;
-	}
-	
-	public int[] getCount(){
-		return letterCountV1;
+	public ArrayList<Characters> getChars(){
+		return characters;
 	}
 	
 }
