@@ -69,3 +69,10 @@ If the boolean is true and the count of the word is higher than the record holde
 Wild card
 For this question I decided to find the number of words with specified suffixes (such as -ly, -ing) and so on.
 This class SuffixFinder() finds the words ending in a suffix and counts them then returns an ArrayList<Word> of the top ten occuring words with those suffixes
+
+QuoteFinder()
+I am unable to get the quote finder to work perfectly using the practices I chose
+This is probably because I am using string and delimiter methods not regEx, but that stuff escapes me now. I expect I'll be in
+office hours soon for clarification,
+I read the whole book as a single String and then extract quotes, I use if/else statements to identify all cases where
+a quote starts or ends. Its not perfect and definitely matches thinds it shouldn't but I'm running out of time.
